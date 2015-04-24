@@ -62,11 +62,10 @@ export class SettingsService extends Service {
   constructor({name, defaultValue, observer, trigger}) {
     super();
 
-    let value = SettingsHelper.get(name, defaultValue).then(
-      ({settingValue}) => {
-        if (trigger && observer) { observer(settingValue); }
-        return settingValue;
-      });
+    let value = SettingsHelper.get(name, defaultValue).then(settingValue => {
+      if (trigger && observer) { observer(settingValue); }
+      return settingValue;
+    });
 
     Object.defineProperty(this, 'name', { value: name });
     Object.defineProperty(this, 'value', {
@@ -79,7 +78,7 @@ export class SettingsService extends Service {
       }
     });
 
-    SettingsHelper.addObserver(name, ({settingValue}) => {
+    SettingsHelper.on(name, ({settingValue}) => {
       value = new Promise.resolve(settingValue);
       if (observer) { observer(settingValue); }
       this._dispatchEvent('settingchange', settingValue);
