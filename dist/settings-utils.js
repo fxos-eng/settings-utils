@@ -25,12 +25,12 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
 
     SettingsHelper.get = function (name, defaultValue) {
       if (!name) {
-        return new Promise.reject("Setting name is missing");
+        return Promise.reject("Setting name is missing");
       }
 
       if (!navigator.mozSettings) {
         console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
-        return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+        return Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
       }
 
       return new Promise(function (resolve, reject) {
@@ -46,12 +46,12 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
 
     SettingsHelper.set = function (settings) {
       if (!settings) {
-        return new Promise.reject("Settings are missing");
+        return Promise.reject("Settings are missing");
       }
 
       if (!navigator.mozSettings) {
         console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
-        return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+        return Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
       }
 
       return new Promise(function (resolve, reject) {
@@ -138,7 +138,7 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
 
       SettingsHelper.on(name, function (_ref2) {
         var settingValue = _ref2.settingValue;
-        value = new Promise.resolve(settingValue);
+        value = Promise.resolve(settingValue);
         if (observer) {
           observer(settingValue);
         }
