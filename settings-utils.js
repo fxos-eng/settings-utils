@@ -9,12 +9,12 @@ const MOZ_SETTINGS_NOT_AVAILABLE_MSG = 'navigator.mozSettings is not available';
 export class SettingsHelper {
   static get(name, defaultValue) {
     if (!name) {
-      return new Promise.reject('Setting name is missing');
+      return Promise.reject('Setting name is missing');
     }
 
     if (!navigator.mozSettings) {
       console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
-      return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+      return Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
     }
 
     return new Promise((resolve, reject) => {
@@ -26,12 +26,12 @@ export class SettingsHelper {
 
   static set(settings) {
     if (!settings) {
-      return new Promise.reject('Settings are missing');
+      return Promise.reject('Settings are missing');
     }
 
     if (!navigator.mozSettings) {
       console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
-      return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+      return Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
     }
 
     return new Promise((resolve, reject) => {
@@ -101,7 +101,7 @@ export class SettingsService extends Service {
     });
 
     SettingsHelper.on(name, ({settingValue}) => {
-      value = new Promise.resolve(settingValue);
+      value = Promise.resolve(settingValue);
       if (observer) { observer(settingValue); }
       this._dispatchEvent('settingchange', settingValue);
     });
