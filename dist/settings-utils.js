@@ -16,12 +16,21 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
   "use strict";
 
   var Service = _componentsFxosMvcDistMvc.Service;
+
+
+  var MOZ_SETTINGS_NOT_AVAILABLE_MSG = "navigator.mozSettings is not available";
+
   var SettingsHelper = (function () {
     var SettingsHelper = function SettingsHelper() {};
 
     SettingsHelper.get = function (name, defaultValue) {
       if (!name) {
         return new Promise.reject("Setting name is missing");
+      }
+
+      if (!navigator.mozSettings) {
+        console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+        return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
       }
 
       return new Promise(function (resolve, reject) {
@@ -38,6 +47,11 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
     SettingsHelper.set = function (settings) {
       if (!settings) {
         return new Promise.reject("Settings are missing");
+      }
+
+      if (!navigator.mozSettings) {
+        console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+        return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
       }
 
       return new Promise(function (resolve, reject) {
@@ -62,6 +76,11 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
         return;
       }
 
+      if (!navigator.mozSettings) {
+        console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+        return;
+      }
+
       navigator.mozSettings.addObserver(name, observer);
     };
 
@@ -73,6 +92,11 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
 
       if (typeof observer !== "function") {
         console.warn("Setting observer must be a function");
+        return;
+      }
+
+      if (!navigator.mozSettings) {
+        console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
         return;
       }
 
@@ -108,7 +132,7 @@ define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componen
         set: function (newValue) {
           var settings = {};
           settings[name] = newValue;
-          SettingsHelper.set(settings);
+          return SettingsHelper.set(settings);
         }
       });
 

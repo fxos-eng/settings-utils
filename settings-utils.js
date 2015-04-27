@@ -4,10 +4,17 @@
 
 import { Service } from 'components/fxos-mvc/dist/mvc';
 
+const MOZ_SETTINGS_NOT_AVAILABLE_MSG = 'navigator.mozSettings is not available';
+
 export class SettingsHelper {
   static get(name, defaultValue) {
     if (!name) {
       return new Promise.reject('Setting name is missing');
+    }
+
+    if (!navigator.mozSettings) {
+      console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+      return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
     }
 
     return new Promise((resolve, reject) => {
@@ -20,6 +27,11 @@ export class SettingsHelper {
   static set(settings) {
     if (!settings) {
       return new Promise.reject('Settings are missing');
+    }
+
+    if (!navigator.mozSettings) {
+      console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+      return new Promise.reject(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
     }
 
     return new Promise((resolve, reject) => {
@@ -40,6 +52,11 @@ export class SettingsHelper {
       return;
     }
 
+    if (!navigator.mozSettings) {
+      console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
+      return;
+    }
+
     navigator.mozSettings.addObserver(name, observer);
   }
 
@@ -51,6 +68,11 @@ export class SettingsHelper {
 
     if (typeof observer !== 'function') {
       console.warn('Setting observer must be a function');
+      return;
+    }
+
+    if (!navigator.mozSettings) {
+      console.warn(MOZ_SETTINGS_NOT_AVAILABLE_MSG);
       return;
     }
 
@@ -74,7 +96,7 @@ export class SettingsService extends Service {
       set: newValue => {
         let settings = {};
         settings[name] = newValue;
-        SettingsHelper.set(settings);
+        return SettingsHelper.set(settings);
       }
     });
 
