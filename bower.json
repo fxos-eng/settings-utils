@@ -1,6 +1,6 @@
 {
   "name": "fxos-settings-utils",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Utilities for working with Settings Web API.",
   "homepage": "https://github.com/fxos/settings-utils",
   "license": "MPL",
