@@ -2,7 +2,7 @@
 
 /* global console */
 
-import { Service } from 'components/fxos-mvc/dist/mvc';
+import { Service } from 'fxos-mvc/dist/mvc';
 
 const MOZ_SETTINGS_NOT_AVAILABLE_MSG = 'navigator.mozSettings is not available';
 
