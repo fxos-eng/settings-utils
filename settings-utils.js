@@ -19,7 +19,10 @@ export class SettingsHelper {
 
     return new Promise((resolve, reject) => {
       let setting = navigator.mozSettings.createLock().get(name, defaultValue);
-      setting.onsuccess = () => { resolve(setting.result); };
+      setting.onsuccess = () => {
+        let settingValue = setting.result[name] || defaultValue;
+        resolve(settingValue);
+      };
       setting.onerror = () => { reject(setting.error); };
     });
   }

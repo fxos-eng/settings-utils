@@ -36,7 +36,8 @@ define(["exports", "fxos-mvc/dist/mvc"], function (exports, _fxosMvcDistMvc) {
       return new Promise(function (resolve, reject) {
         var setting = navigator.mozSettings.createLock().get(name, defaultValue);
         setting.onsuccess = function () {
-          resolve(setting.result);
+          var settingValue = setting.result[name] || defaultValue;
+          resolve(settingValue);
         };
         setting.onerror = function () {
           reject(setting.error);
