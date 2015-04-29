@@ -90,7 +90,7 @@ export class SettingsService extends Service {
     let value = SettingsHelper.get(name, defaultValue).then(settingValue => {
       if (trigger && observer) { observer(settingValue); }
       return settingValue;
-    });
+    }, reason => console.warn('Unable to get', name, reason));
 
     Object.defineProperty(this, 'name', { value: name });
     Object.defineProperty(this, 'value', {
@@ -99,7 +99,8 @@ export class SettingsService extends Service {
       set: newValue => {
         let settings = {};
         settings[name] = newValue;
-        return SettingsHelper.set(settings);
+        SettingsHelper.set(settings).catch(
+          reason => console.warn('Unable to set', name, reason));
       }
     });
 

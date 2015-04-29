@@ -122,6 +122,8 @@ define(["exports", "fxos-mvc/dist/mvc"], function (exports, _fxosMvcDistMvc) {
           observer(settingValue);
         }
         return settingValue;
+      }, function (reason) {
+        return console.warn("Unable to get", name, reason);
       });
 
       Object.defineProperty(this, "name", { value: name });
@@ -133,7 +135,9 @@ define(["exports", "fxos-mvc/dist/mvc"], function (exports, _fxosMvcDistMvc) {
         set: function (newValue) {
           var settings = {};
           settings[name] = newValue;
-          return SettingsHelper.set(settings);
+          SettingsHelper.set(settings)["catch"](function (reason) {
+            return console.warn("Unable to set", name, reason);
+          });
         }
       });
 
