@@ -90,7 +90,10 @@ export class SettingsService extends Service {
     let value = SettingsHelper.get(name, defaultValue).then(settingValue => {
       if (trigger && observer) { observer(settingValue); }
       return settingValue;
-    }, reason => console.warn('Unable to get', name, reason));
+    }, reason => {
+      console.warn('Unable to get', name, reason);
+      if (trigger && observer) { observer(defaultValue); }
+    });
 
     Object.defineProperty(this, 'name', { value: name });
     Object.defineProperty(this, 'value', {

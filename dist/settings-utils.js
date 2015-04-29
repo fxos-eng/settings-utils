@@ -123,7 +123,10 @@ define(["exports", "fxos-mvc/dist/mvc"], function (exports, _fxosMvcDistMvc) {
         }
         return settingValue;
       }, function (reason) {
-        return console.warn("Unable to get", name, reason);
+        console.warn("Unable to get", name, reason);
+        if (trigger && observer) {
+          observer(defaultValue);
+        }
       });
 
       Object.defineProperty(this, "name", { value: name });
