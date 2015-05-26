@@ -1,4 +1,4 @@
-define(["exports", "fxos-mvc/dist/mvc"], function (exports, _fxosMvcDistMvc) {
+define(["exports", "components/fxos-mvc/dist/mvc"], function (exports, _componentsFxosMvcDistMvc) {
   "use strict";
 
   var _extends = function (child, parent) {
@@ -13,9 +13,7 @@ define(["exports", "fxos-mvc/dist/mvc"], function (exports, _fxosMvcDistMvc) {
     child.__proto__ = parent;
   };
 
-  "use strict";
-
-  var Service = _fxosMvcDistMvc.Service;
+  var Service = _componentsFxosMvcDistMvc.Service;
 
 
   var MOZ_SETTINGS_NOT_AVAILABLE_MSG = "navigator.mozSettings is not available";
